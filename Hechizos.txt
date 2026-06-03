@@ -1,0 +1,50 @@
+Sofoco;Fuego;90;6
+Pirotecnia;Fuego;80;4
+Vórtice Ígneo;Fuego;35;5
+Envite Igneo;Fuego;120;7
+Rueda Fuego;Fuego;60;3
+Infierno;Fuego;100;8
+Fuego Sagrado;Fuego;100;6
+Llamarada Azul;Fuego;130;9
+Explosión Ígnea;Fuego;110;7
+Colmillo Igneo;Fuego;65;3
+Calcinación;Fuego;60;5
+Giro Fuego;Fuego;35;4
+Patada Ígnea;Fuego;85;4
+Fogonazo;Fuego;70;3
+Ascuas;Fuego;77;5
+Salmuera;Agua;65;20,130
+Hidroariete;Agua;75;25,160
+Burbuja;Agua;40;10,60
+Rayo Burbuja;Agua;65;15,90
+Danza Lluvia;Agua;0;30,40
+Pistola Agua;Agua;40;10,70
+Acua Aro;Agua;0;40,30
+Escaldar;Agua;110;45,360
+Cascada;Agua;80;20,150
+Origen Pulso;Agua;110;40,300
+Surf;Agua;90;30,200
+Agua Lodosa;Agua;90;25,180
+Acua Jet;Agua;40;12,80
+Pulso de Agua;Agua;60;18,110
+Torbellino;Agua;35;15,90
+Disparo Lodo;Tierra;55;30
+Poder Pasado;Tierra;60;45
+Martillazo;Tierra;100;35
+Tumba Rocas;Tierra;18;40
+Pedrada;Tierra;50;30
+Excavar;Tierra;80;40
+Avalancha;Tierra;60;50
+Tormenta de Arena;Tierra;0;60
+Huesomerang;Tierra;50;35
+Gigadrenado;Planta;75;2,8
+Arraigo;Planta;0;4,12
+Silvato;Planta;0;3,6
+Polen Somnífero;Planta;81;3,10
+Hierba Lazo;Planta;60;2,5
+Hoja Afilada;Planta;55;2,6
+Energibola;Planta;90;3,7
+Hoja Mágica;Planta;60;2,8
+Latigazo;Planta;45;1,4
+Absorber;Planta;20;1,3
+Clorofila;Planta;0;5,15
