@@ -33,10 +33,8 @@ public class Sistema {
 	public ArrayList<Mago> getListaMagos() {
 		return listaMagos;
 	}
-
-	// Implementacion carga de archivos
 	
-	// Lee Hechizos.txt y segun el tipo instancia la subclase correcta parseando su 4to campo
+	
 	public void cargarHechizos() {
 		try {
 			File archivo = new File(ARCHIVO_HECHIZOS);
@@ -93,8 +91,8 @@ public class Sistema {
 			System.out.println("Error: No se encontro el archivo " + ARCHIVO_HECHIZOS);
 		}
 	}
-
-	// Lee Magos.txt y enlaza cada nombre de hechizo con el objeto real del catalogo
+	
+	
 	public void cargarMagos() {
 		try {
 			File archivo = new File(ARCHIVO_MAGOS);
@@ -132,7 +130,7 @@ public class Sistema {
 		}
 	}
 
-	// busca un hechizo en el catalogo por nombre
+	// busca un hechizo
 	public Hechizo buscarHechizo(String nombre) {
 		for (Hechizo h : catalogoHechizos) {
 			if (h.getNombre().equalsIgnoreCase(nombre)) {
@@ -142,7 +140,7 @@ public class Sistema {
 		return null;
 	}
 
-	// busca un mago en la lista por nombre
+	// busca un mago
 	public Mago buscarMago(String nombre) {
 		for (Mago m : listaMagos) {
 			if (m.getNombre().equalsIgnoreCase(nombre)) {
@@ -152,9 +150,9 @@ public class Sistema {
 		return null;
 	}
 
-	// Implementacion escritura de archivos
+	// Escritura de archivos
 	
-	// Reescribe Hechizos.txt completo
+	
 	public void guardarHechizos() {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_HECHIZOS, false));
@@ -168,7 +166,7 @@ public class Sistema {
 		}
 	}
 
-	// Reescribe Magos.txt completo con el formato Nombre;Hechizo1|Hechizo2|...
+
 	public void guardarMagos() {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO_MAGOS, false));
@@ -190,57 +188,163 @@ public class Sistema {
 		}
 	}
 
-	// PANEL ADMIN (TODO)
+	// ==========================================
+		// PANEL ADMIN
+		// ==========================================
 
-	// 1. Agregar Mago.
-	// TODO: validar que no exista ya (buscarMago()), crear el Mago, opcionalmente
-	//       pedir sus hechizos (enlazar con buscarHechizo()), agregarlo a listaMagos
-	//       y al final llamar guardarMagos() para que persista en el .txt.
-	public void agregarMago(Mago nuevo) {
-		// TODO: implementar
-	}
+		// 1. Agregar Mago.
+		public boolean agregarMago(Mago nuevo) {
+			if (buscarMago(nuevo.getNombre()) != null) {
+				System.out.println("Error: Ya existe un mago con el nombre " + nuevo.getNombre());
+				return false;
+			}
+			listaMagos.add(nuevo);
+			guardarMagos();
+			System.out.println("Mago agregado exitosamente.");
+			return true;
+		}
 
-	// 2. Modificar Mago.
-	// TODO: buscar el mago; si existe, cambiarle el nombre y/o su repertorio de
-	//       hechizos, y luego guardarMagos().
-	public boolean modificarMago(String nombre) {
-		// TODO: implementar
-		return false;
-	}
+		// 2. Modificar Mago.
+		public boolean modificarMago(String nombre, Scanner sc) {
+			Mago mago = buscarMago(nombre);
+			if (mago == null) {
+				System.out.println("Error: El mago no existe.");
+				return false;
+			}
 
-	// 3. Eliminar Mago.
-	// TODO: buscar y remover de listaMagos; luego guardarMagos().
-	public boolean eliminarMago(String nombre) {
-		// TODO: implementar
-		return false;
-	}
+			System.out.println("Seleccione que desea modificar:");
+			System.out.println("1. Cambiar nombre");
+			System.out.println("2. Agregar hechizo al repertorio");
+			System.out.println("3. Eliminar hechizo del repertorio");
+			int opcion = Integer.parseInt(sc.nextLine());
 
-	// 4. Agregar Hechizo.
-	// TODO: validar que no exista (buscarHechizo()), agregar 'nuevo' al catalogo y
-	//       guardarHechizos(). OJO: el Main es quien instancia la subclase correcta
-	//       (HechizoFuego / HechizoTierra / HechizoPlanta / HechizoAgua).
-	public void agregarHechizo(Hechizo nuevo) {
-		// TODO: implementar
-	}
+			if (opcion == 1) {
+				System.out.print("Ingrese el nuevo nombre: ");
+				String nuevoNombre = sc.nextLine();
+				if (buscarMago(nuevoNombre) == null) {
+					mago.setNombre(nuevoNombre); // Asegurate de tener el setter en la clase Mago
+					System.out.println("Nombre actualizado.");
+				} else {
+					System.out.println("Error: Ya existe un mago con ese nombre.");
+				}
+			} else if (opcion == 2) {
+				System.out.print("Ingrese el nombre del hechizo a agregar: ");
+				String nomHechizo = sc.nextLine();
+				Hechizo h = buscarHechizo(nomHechizo);
+				if (h != null) {
+					mago.agregarHechizo(h);
+					System.out.println("Hechizo agregado al mago.");
+				} else {
+					System.out.println("Error: El hechizo no existe en el catalogo.");
+				}
+			} else if (opcion == 3) {
+				System.out.print("Ingrese el nombre del hechizo a eliminar: ");
+				String nomHechizo = sc.nextLine();
+				Hechizo h = buscarHechizo(nomHechizo);
+				if (h != null && mago.getHechizos().contains(h)) {
+					mago.getHechizos().remove(h);
+					System.out.println("Hechizo eliminado del repertorio del mago.");
+				} else {
+					System.out.println("Error: El mago no posee este hechizo.");
+				}
+			} else {
+				System.out.println("Opcion no valida.");
+				return false;
+			}
 
-	// 5. Modificar Hechizo.
-	// TODO: buscar el hechizo; actualizar su daño y los atributos propios de su
-	//       elemento (castear con instanceof a la subclase y usar sus setters).
-	//       Como los magos guardan REFERENCIAS al mismo objeto, el cambio se refleja
-	//       solo en todos los magos que lo poseen. Finalmente guardarHechizos().
-	public boolean modificarHechizo(String nombre) {
-		// TODO: implementar
-		return false;
-	}
+			guardarMagos();
+			return true;
+		}
 
-	// 6. Eliminar Hechizo.
-	// TODO: remover del catalogo Y tambien de la lista de cada mago que lo tenga
-	//       (recorrer listaMagos y quitarlo de su ArrayList de hechizos).
-	//       Luego guardarHechizos() y guardarMagos().
-	public boolean eliminarHechizo(String nombre) {
-		// TODO: implementar
-		return false;
-	}
+		// 3. Eliminar Mago.
+		public boolean eliminarMago(String nombre) {
+			Mago mago = buscarMago(nombre);
+			if (mago != null) {
+				listaMagos.remove(mago);
+				guardarMagos();
+				System.out.println("Mago eliminado exitosamente.");
+				return true;
+			}
+			System.out.println("Error: El mago no existe.");
+			return false;
+		}
+
+		// 4. Agregar Hechizo.
+		public boolean agregarHechizo(Hechizo nuevo) {
+			if (buscarHechizo(nuevo.getNombre()) != null) {
+				System.out.println("Error: El hechizo ya existe en el catalogo.");
+				return false;
+			}
+			catalogoHechizos.add(nuevo);
+			guardarHechizos();
+			System.out.println("Hechizo agregado exitosamente al catalogo.");
+			return true;
+		}
+
+		// 5. Modificar Hechizo.
+		public boolean modificarHechizo(String nombre, Scanner sc) {
+			Hechizo h = buscarHechizo(nombre);
+			if (h == null) {
+				System.out.println("Error: El hechizo no existe.");
+				return false;
+			}
+
+			System.out.print("Ingrese el nuevo daño (actual: " + h.getDano() + "): ");
+			int nuevoDano = Integer.parseInt(sc.nextLine());
+			h.setDano(nuevoDano); // Asegurate de tener setDano() en tu clase abstracta Hechizo
+
+			// Casteo usando instanceof para acceder a los atributos especificos
+			if (h instanceof HechizoFuego) {
+				HechizoFuego hf = (HechizoFuego) h;
+				System.out.print("Ingrese nueva duracion de quemadura (actual: " + hf.getDuracionQuemadura() + "): ");
+				hf.setDuracionQuemadura(Integer.parseInt(sc.nextLine()));
+			} else if (h instanceof HechizoTierra) {
+				HechizoTierra ht = (HechizoTierra) h;
+				System.out.print("Ingrese nueva mejora de defensa (actual: " + ht.getMejoraDefensa() + "): ");
+				ht.setMejoraDefensa(Integer.parseInt(sc.nextLine()));
+			} else if (h instanceof HechizoPlanta) {
+				HechizoPlanta hp = (HechizoPlanta) h;
+				System.out.print("Ingrese nueva duracion de stun (actual: " + hp.getDuracionStun() + "): ");
+				hp.setDuracionStun(Integer.parseInt(sc.nextLine()));
+				System.out.print("Ingrese nueva cantidad de plantas (actual: " + hp.getCantPlantas() + "): ");
+				hp.setCantPlantas(Integer.parseInt(sc.nextLine()));
+			} else if (h instanceof HechizoAgua) {
+				HechizoAgua ha = (HechizoAgua) h;
+				System.out.print("Ingrese nueva cantidad de heal (actual: " + ha.getCantidadHeal() + "): ");
+				ha.setCantidadHeal(Integer.parseInt(sc.nextLine()));
+				System.out.print("Ingrese nueva presion de agua (actual: " + ha.getPresionDelAgua() + "): ");
+				ha.setPresionDelAgua(Integer.parseInt(sc.nextLine()));
+			}
+
+			// Al modificar el objeto por referencia, los magos que lo tienen ya ven el cambio en memoria.
+			guardarHechizos(); 
+			return true;
+		}
+
+		// 6. Eliminar Hechizo.
+		public boolean eliminarHechizo(String nombre) {
+			Hechizo h = buscarHechizo(nombre);
+			if (h == null) {
+				System.out.println("Error: El hechizo no existe.");
+				return false;
+			}
+
+			// 1. Lo quitamos del catalogo general
+			catalogoHechizos.remove(h);
+
+			// 2. Lo quitamos del inventario de TODOS los magos que lo posean
+			for (Mago m : listaMagos) {
+				if (m.getHechizos().contains(h)) {
+					m.getHechizos().remove(h);
+				}
+			}
+
+			// 3. Sobrescribimos ambos archivos para reflejar el borrado global
+			guardarHechizos();
+			guardarMagos();
+			System.out.println("Hechizo eliminado del catalogo y del repertorio de todos los magos.");
+			return true;
+		}
 
 	// PANEL ANALISTA (TODO)
 

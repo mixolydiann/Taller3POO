@@ -7,6 +7,8 @@ Vicente Guerra / 21.855.415-6 / nemura0
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import dominio.*;
+
 // Entrada del programa -- solo se encarga de la interaccion por consola
 // (menus y validacion de entradas) y le delega toda la logica al sistema
 public class App {
@@ -68,7 +70,7 @@ public class App {
 	}
 
 	// PANEL ADMINISTRADOR (esqueleto)
-	// cada case esta cableado; falta implementar la llamada al Sistema (los // TODO)
+
 	public static void panelAdministrador(Scanner sc, Sistema sistema) {
 		boolean enPanel = true;
 
@@ -91,28 +93,41 @@ public class App {
 				switch (opcion) {
 
 				case 1:
-					// TODO: pedir nombre (y hechizos) y llamar a sistema.agregarMago(...)
+					System.out.println("Ingrese el nombre para el nuevo mago: ");
+					String nombreMago = sc.nextLine();
+					Mago nuevoMago = new Mago(nombreMago);
+					sistema.agregarMago(nuevoMago);
 					break;
 
 				case 2:
-					// TODO: pedir nombre y llamar a sistema.modificarMago(...)
+					System.out.println("Ingrese el nombre del mago a modificar: ");
+					String magoMod = sc.nextLine();
+					
+					sistema.modificarMago(magoMod, sc);
 					break;
 
 				case 3:
-					// TODO: pedir nombre y llamar a sistema.eliminarMago(...)
+					System.out.println("Ingrese el nombre del mago a eliminar:");
+					String magoElim = sc.nextLine();
+					
+					sistema.eliminarMago(magoElim);
 					break;
 
 				case 4:
-					// TODO: pedir tipo + datos, instanciar la subclase correcta
-					//       (HechizoFuego/Tierra/Planta/Agua) y llamar a sistema.agregarHechizo(...)
+					crearHechizoDesdeConsola(sistema, sc);
 					break;
 
 				case 5:
-					// TODO: pedir nombre/datos y llamar a sistema.modificarHechizo(...)
+					System.out.println("Ingrese el nombre del hechizo a modificar: ");
+					String hechizoMod = sc.nextLine();
+					
+					sistema.modificarHechizo(hechizoMod, sc);
 					break;
 
 				case 6:
-					// TODO: pedir nombre y llamar a sistema.eliminarHechizo(...)
+					System.out.print("Ingrese el nombre del hechizo a eliminar: ");
+                    String hechizoElim = sc.nextLine();
+                    sistema.eliminarHechizo(hechizoElim);
 					break;
 
 				case 7:
@@ -131,6 +146,67 @@ public class App {
 		}
 	}
 
+	private static void crearHechizoDesdeConsola(Sistema sistema, Scanner sc) {
+        System.out.print("Ingrese el nombre del nuevo hechizo: ");
+        String nombre = sc.nextLine();
+
+        // Ver si existe
+        if (sistema.buscarHechizo(nombre) != null) {
+            System.out.println("Error: Ya existe un hechizo con ese nombre.");
+            return;
+        }
+
+        System.out.print("Ingrese el daño base: ");
+        int dano = Integer.parseInt(sc.nextLine());
+
+        System.out.println("Seleccione el elemento del hechizo:");
+        System.out.println("1. Fuego\n"
+        		+ "2. Tierra\n"
+        		+ "3. Planta\n"
+        		+ "4. Agua");
+        int tipoOpcion = Integer.parseInt(sc.nextLine());
+
+        Hechizo nuevoHechizo = null;
+
+        switch (tipoOpcion) {
+            case 1:
+                System.out.print("Ingrese la duración de la quemadura: ");
+                int quemadura = Integer.parseInt(sc.nextLine());
+                nuevoHechizo = new HechizoFuego(nombre, dano, quemadura);
+                break;
+            case 2:
+                System.out.print("Ingrese la mejora de defensa: ");
+                int defensa = Integer.parseInt(sc.nextLine());
+                nuevoHechizo = new HechizoTierra(nombre, dano, defensa);
+                break;
+            case 3:
+                System.out.print("Ingrese la duración del stun: ");
+                int stun = Integer.parseInt(sc.nextLine());
+                System.out.print("Ingrese la cantidad de plantas: ");
+                int cantPlantas = Integer.parseInt(sc.nextLine());
+                nuevoHechizo = new HechizoPlanta(nombre, dano, stun, cantPlantas);
+                break;
+            case 4:
+                System.out.print("Ingrese la cantidad de heal: ");
+                int heal = Integer.parseInt(sc.nextLine());
+                System.out.print("Ingrese la presión del agua: ");
+                int presion = Integer.parseInt(sc.nextLine());
+                nuevoHechizo = new HechizoAgua(nombre, dano, heal, presion);
+                break;
+            default:
+                System.out.println("Tipo no válido. Creación cancelada.");
+                return;
+        }
+
+        // Si se cero bien lo mandamos
+        if (nuevoHechizo != null) {
+            sistema.agregarHechizo(nuevoHechizo);
+        }
+    }
+	
+	
+	
+	
 	// PANEL ANALISTA (esqueleto)
 	// Para las opciones 3-6 recorrer sistema.getCatalogoHechizos()
 	// sistema.getListaMagos(); para 1-2 usar sistema.topHechizos(10) / topMagos(3).

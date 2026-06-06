@@ -48,3 +48,4 @@ Hoja Mágica;Planta;60;2,8
 Latigazo;Planta;45;1,4
 Absorber;Planta;20;1,3
 Clorofila;Planta;0;5,15
+pechizo;Fuego;100;5
