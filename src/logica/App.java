@@ -4,10 +4,10 @@ Luis Molina / 21.564.225-9 / mixolydiann
 Vicente Guerra / 21.855.415-6 / nemura0
 */
 
+import dominio.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
-import dominio.*;
 
 // Entrada del programa -- solo se encarga de la interaccion por consola
 // (menus y validacion de entradas) y le delega toda la logica al sistema
@@ -232,27 +232,73 @@ public class App {
 				switch (opcion) {
 
 				case 1:
-					// TODO: recorrer sistema.topHechizos(10) e imprimir nombre + puntaje
+					ArrayList<Hechizo> topHechizos = sistema.topHechizos(10);
+					System.out.println("--- Top 10 Mejores Hechizos ---");
+					if (topHechizos.isEmpty()) {
+						System.out.println("No hay hechizos cargados.");
+					} else {
+						for (int i = 0; i < topHechizos.size(); i++) {
+							Hechizo h = topHechizos.get(i);
+							System.out.println((i + 1) + ") " + h.getNombre() + " - " + h.calcularPuntaje() + " pts");
+						}
+					}
 					break;
 
 				case 2:
-					// TODO: recorrer sistema.topMagos(3) e imprimir nombre + puntaje
+					ArrayList<Mago> topMagos = sistema.topMagos(3);
+					System.out.println("--- Top 3 Mejores Magos ---");
+					if (topMagos.isEmpty()) {
+						System.out.println("No hay magos cargados.");
+					} else {
+						for (int i = 0; i < topMagos.size(); i++) {
+							Mago m = topMagos.get(i);
+							System.out.println((i + 1) + ") " + m.getNombre() + " - " + m.calcularPuntaje() + " pts");
+						}
+					}
 					break;
 
 				case 3:
-					// TODO: recorrer sistema.getCatalogoHechizos() e imprimir nombre + tipo
+					System.out.println("--- Todos los Hechizos ---");
+					if (sistema.getCatalogoHechizos().isEmpty()) {
+						System.out.println("No hay hechizos cargados.");
+					} else {
+						for (Hechizo h : sistema.getCatalogoHechizos()) {
+							System.out.println(h.getNombre() + " (" + h.getTipo() + ")");
+						}
+					}
 					break;
 
 				case 4:
-					// TODO: recorrer sistema.getListaMagos() e imprimir el nombre
+					System.out.println("--- Todos los Magos ---");
+					if (sistema.getListaMagos().isEmpty()) {
+						System.out.println("No hay magos cargados.");
+					} else {
+						for (Mago m : sistema.getListaMagos()) {
+							System.out.println(m.getNombre());
+						}
+					}
 					break;
 
 				case 5:
-					// TODO: recorrer hechizos e imprimir nombre + calcularPuntaje()
+					System.out.println("--- Hechizos con su puntuacion ---");
+					if (sistema.getCatalogoHechizos().isEmpty()) {
+						System.out.println("No hay hechizos cargados.");
+					} else {
+						for (Hechizo h : sistema.getCatalogoHechizos()) {
+							System.out.println(h.getNombre() + " -> " + h.calcularPuntaje() + " pts");
+						}
+					}
 					break;
 
 				case 6:
-					// TODO: recorrer magos e imprimir nombre + calcularPuntaje()
+					System.out.println("--- Magos con su puntuacion ---");
+					if (sistema.getListaMagos().isEmpty()) {
+						System.out.println("No hay magos cargados.");
+					} else {
+						for (Mago m : sistema.getListaMagos()) {
+							System.out.println(m.getNombre() + " -> " + m.calcularPuntaje() + " pts");
+						}
+					}
 					break;
 
 				case 7:

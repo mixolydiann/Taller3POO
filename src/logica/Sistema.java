@@ -4,7 +4,6 @@ Luis Molina / 21.564.225-9 / mixolydiann
 Vicente Guerra / 21.855.415-6 / nemura0
 */
 import dominio.*;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -349,19 +348,54 @@ public class Sistema {
 	// PANEL ANALISTA (TODO)
 
 	// Top N hechizos con mayor puntaje.
-	// TODO: copiar catalogoHechizos a una lista nueva, ordenarla de mayor a menor por
-	//       calcularPuntaje() (ordenamiento manual: seleccion o burbuja, sin Comparator)
-	//       y devolver solo los primeros n.
+	// Copiamos el catalogo a una lista nueva, la ordenamos de mayor a menor por
+	// puntaje (ordenamiento por seleccion) y devolvemos solo los primeros n.
 	public ArrayList<Hechizo> topHechizos(int n) {
-		// TODO: implementar
-		return new ArrayList<>();
+		ArrayList<Hechizo> copia = new ArrayList<>(catalogoHechizos);
+
+		for (int i = 0; i < copia.size() - 1; i++) {
+			int mayor = i;
+			for (int j = i + 1; j < copia.size(); j++) {
+				if (copia.get(j).calcularPuntaje() > copia.get(mayor).calcularPuntaje()) {
+					mayor = j;
+				}
+			}
+			Hechizo aux = copia.get(i);
+			copia.set(i, copia.get(mayor));
+			copia.set(mayor, aux);
+		}
+
+		ArrayList<Hechizo> top = new ArrayList<>();
+		int limite = Math.min(n, copia.size());
+		for (int i = 0; i < limite; i++) {
+			top.add(copia.get(i));
+		}
+		return top;
 	}
 
 	// Top N magos con mayor puntaje (suma de los puntajes de sus hechizos).
-	// TODO: mismo procedimiento que topHechizos pero sobre listaMagos.
+	// Mismo procedimiento que topHechizos pero sobre listaMagos.
 	public ArrayList<Mago> topMagos(int n) {
-		// TODO: implementar
-		return new ArrayList<>();
+		ArrayList<Mago> copia = new ArrayList<>(listaMagos);
+
+		for (int i = 0; i < copia.size() - 1; i++) {
+			int mayor = i;
+			for (int j = i + 1; j < copia.size(); j++) {
+				if (copia.get(j).calcularPuntaje() > copia.get(mayor).calcularPuntaje()) {
+					mayor = j;
+				}
+			}
+			Mago aux = copia.get(i);
+			copia.set(i, copia.get(mayor));
+			copia.set(mayor, aux);
+		}
+
+		ArrayList<Mago> top = new ArrayList<>();
+		int limite = Math.min(n, copia.size());
+		for (int i = 0; i < limite; i++) {
+			top.add(copia.get(i));
+		}
+		return top;
 	}
 
 }
